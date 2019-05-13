@@ -1,0 +1,35 @@
+# CS 6250 Spring 2019 - Firewall Policy
+# Rule number, srcmac, dstmac, srcip, dstip, srcport, dstport, protocol
+# Rule number is incremented each time - mostly for debug purposes
+# - for a rule element indicates that you don't need to match it.
+# Comments are on their own line
+
+# Block PPTP that will prohibit all hosts from accessing a PPTP server running on server2
+1, -, -, -, 10.0.0.6, -, 1723, T
+
+#Prohibit all hosts from connectiong to SSH server(e1-e3) on port 22
+2, -, -, -, 10.0.0.1, -, 22, B
+3, -, -, -, 10.0.0.2, -, 22, B
+4, -, -, -, 10.0.0.3, -, 22, B
+
+#NO access to DNS and NTP on S1 and S2
+#DNS and NTP on S3 remains accessible
+5, -, , -, 10.0.0.5, -, 123, U
+6, -, , -, 10.0.0.5, -, 53, U
+7, -, , -, 10.0.0.6, -, 123, U
+8, -, , -, 10.0.0.6, -, 53, U
+
+
+#W1 and W2 was disabled from pinging mobile1
+9, -, -, 10.0.0.8, 10.0.0.4, -, -, I
+10, -, -, 10.0.0.9, 10.0.0.4, -, -, I
+
+#Disable all traffic to TCP 9950-9952 on e3 from e1
+11, 00:00:00:00:00:01, 00:00:00:00:00:03, 10.0.0.1, -, -, 9950, T
+12, 00:00:00:00:00:01, 00:00:00:00:00:03, -, -, -, 9951, T
+13, 00:00:00:00:00:01, 00:00:00:00:00:03, -, -, -, 9952, T
+
+#Restrict mobile1 to e1 e2 and e3 on both TCP and UDP
+14, 00:00:00:00:00:04, 00:00:00:00:00:01, -, -, -, -, B
+15, 00:00:00:00:00:04, 00:00:00:00:00:02, -, -, -, -, B
+16, 00:00:00:00:00:04, 00:00:00:00:00:03, -, -, -, -, B
